@@ -13,6 +13,5 @@ def make_vote_frome_data(vd: VoteData):
 
 def make_answer_frome_data(ans: AnswerData) -> Answer:
     new_id = str(uuid.uuid4())
-    # body = ans.vote_id + "|" + ans.choice
     v = Answer(id=f"answer:{ans.vote_id}:{ans.choice}:{new_id}", body=ans.choice)
     return v

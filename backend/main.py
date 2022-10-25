@@ -1,12 +1,13 @@
-from typing import Union
+import aioredis
 
 from fastapi import FastAPI
-from app.models.base import VoteData, Vote, Answer, AnswerData
+
+from app.services.make_vote import make_vote_frome_data, make_answer_frome_data
+from app.models.base import VoteData, AnswerData
 
 from app.redis import connect as rb
-from app.core.settings import REDIS_HOST, SCHEMA
 from app.services.examinations import check_answer_data
-import uuid
+
 
 app = FastAPI()
 
@@ -19,17 +20,6 @@ def percentage(part, whole):
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
-
-
-# @app.get("/items/")
-# async def read_item(item: VoteData):
-#     redis = make_redis_connection(REDIS_HOST)
-#     answer = await rb.get_value(item.title)
-#     data =
-#     return {"item_id": item_id, "q": q}
-
-from app.services.make_vote import make_vote_frome_data, make_answer_frome_data
-import aioredis
 
 
 @app.get("/votes/")
@@ -109,6 +99,5 @@ async def get_answers_count(vote_id: str):
         "vote": vote,
         "count": count_all_voute,
         "keys": keys,
-        # "count_target_voute": count_target_voute,
         "results": results,
     }
